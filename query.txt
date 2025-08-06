@@ -1,0 +1,28 @@
+SELECT * 
+FROM (
+  SELECT 
+    product_name,
+    category_name,
+    customer_country,
+    customer_state,
+    customer_city,
+    order_date,
+    COUNT(customer_id) AS total_orders,
+    ROUND(AVG(order_item_discount), 2) AS avg_discount,
+    ROUND(SUM(profit_per_order), 2) AS total_profit
+  FROM 
+    `ayman-alaqrabawi05.E_commerce.e_CommerceSales`
+  WHERE 
+    profit_per_order IS NOT NULL 
+    AND order_item_discount IS NOT NULL
+  GROUP BY 
+    product_name,
+    category_name,
+    customer_country,
+    customer_state,
+    customer_city,
+    order_date
+) AS summary
+ORDER BY 
+  total_orders DESC
+;
